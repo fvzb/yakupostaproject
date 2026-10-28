@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubabalar Adresi | Yakup Usta</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome (İkonlar için) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            background-color: #0d0f12;
+            color: white;
+        }
+
+        /* --- GİRİŞ EKRANI --- */
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0f12;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #start-screen h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+            padding: 0 20px;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(88, 101, 242, 0.5);
+        }
+
+        /* --- ÜST BAŞLIK --- */
+        .top-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 10;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .neon-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            color: #ffcc00;
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 40px #ff9900;
+            text-transform: uppercase;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00; }
+            to { text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff9900, 0 0 60px #ff5500; }
+        }
+
+        /* --- ANA İÇERİK (SPLIT LAYOUT) --- */
+        .main-container {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+            padding: 20px;
+        }
+
+        .main-container.show {
+            opacity: 1;
+        }
+
+        .glass-panel {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            background: rgba(15, 17, 22, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-top: 40px;
+        }
+
+        /* Sol Taraf (Fotoğraf Slaytı) */
+        .image-side {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: slideShow 18s infinite;
+            box-shadow: inset -20px 0 50px rgba(15, 17, 22, 0.9);
+        }
+
+        .bg-slide:nth-child(1) { 
+            background-image: url('https://i.pinimg.com/736x/a9/be/de/a9bede7ec9b7fd529e68d12f477e06ce.jpg'); 
+            animation-delay: 0s; 
+        }
+        .bg-slide:nth-child(2) { 
+            background-image: url('https://i.pinimg.com/736x/ae/35/ef/ae35ef9021ce3976c8c4bca8a8492374.jpg'); 
+            animation-delay: 6s; 
+        }
+        .bg-slide:nth-child(3) { 
+            background-image: url('https://i.pinimg.com/736x/c8/b9/01/c8b90164b2fe4ee4c1aa8fbdee1efda2.jpg'); 
+            animation-delay: 12s; 
+        }
+
+        @keyframes slideShow {
+            0% { opacity: 0; transform: scale(1); }
+            10% { opacity: 1; }
+            33% { opacity: 1; }
+            43% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 0; transform: scale(1.05); }
+        }
+
+        /* Sağ Taraf (Bilgiler ve Buton) */
+        .info-side {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            background: linear-gradient(to right, rgba(15, 17, 22, 0.8), rgba(15, 17, 22, 1));
+        }
+
+        .discord-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 101, 242, 0.15);
+            color: #5865F2;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+        }
+
+        .info-side h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff, #8892b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-side p {
+            font-size: 1.1rem;
+            color: #a0a5b1;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Altın Rengi Discord Butonu */
+        .btn-discord {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            color: #000;
+            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 204, 0, 0.3);
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-discord::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-discord:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 204, 0, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-discord:hover::before {
+            left: 100%;
+        }
+
+        /* Müzik Kontrol Butonu */
+        .music-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        /* Responsive (Mobil) */
+        @media (max-width: 900px) {
+            .glass-panel {
+                flex-direction: column;
+                height: 80vh;
+                margin-top: 80px;
+            }
+            .image-side {
+                min-height: 250px;
+            }
+            .info-side {
+                padding: 30px;
+                align-items: center;
+                text-align: center;
+            }
+            .neon-title { font-size: 1.5rem; letter-spacing: 2px; }
+            .info-side h1 { font-size: 2.2rem; }
+            .btn-discord { max-width: 100%; }
+            .bg-slide { box-shadow: inset 0 -20px 50px rgba(15, 17, 22, 0.9); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Müzik Elementi -->
+    <audio id="bg-music" src="yakupusta.mp3" loop></audio>
+
+    <!-- Giriş Ekranı -->
+    <div id="start-screen">
+        <h2>Yakup Usta'nın Diyarına Hoş Geldin</h2>
+        <button class="start-btn" onclick="startExperience()">
+            <i class="fas fa-play"></i> İçeri Gir
+        </button>
+    </div>
+
+    <!-- Üst Neon Başlık -->
+    <div class="top-header" id="header" style="display: none; opacity: 0; transition: opacity 1s;">
+        <div class="neon-title">BUBABALAR ADRESİ</div>
+    </div>
+
+    <!-- Müzik Aç/Kapat Butonu -->
+    <div class="music-toggle" id="music-btn" onclick="toggleMusic()" style="display: none; opacity: 0; transition: opacity 1s;">
+        <i class="fas fa-volume-up"></i>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="main-container" id="main-content">
+        
+        <div class="glass-panel">
+            <!-- Sol Taraf: Resimler -->
+            <div class="image-side">
+                <div class="bg-slide"></div>
+                <div class="bg-slide"></div>
+                <div class="bg-slide"></div>
+            </div>
+
+            <!-- Sağ Taraf: Yazılar ve Buton -->
+            <div class="info-side">
+                <div class="discord-badge">
+                    <i class="fab fa-discord"></i> Resmi Discord Sunucusu
+                </div>
+                
+                <h1>Yakup Usta</h1>
+                <p>Efsanevi Yakup Usta'nın krallığına hoş geldin. Sohbet, eğlence, etkinlikler ve daha fazlası için aramıza katıl. Babaların adresi burada!</p>
+                
+                <a href="https://discord.gg/Qm2nZwDnv" target="_blank" class="btn-discord">
+                    <i class="fab fa-discord"></i> Hemen Katıl
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Kodları -->
+    <script>
+        var audio = document.getElementById('bg-music');
+        var startScreen = document.getElementById('start-screen');
+        var mainContent = document.getElementById('main-content');
+        var header = document.getElementById('header');
+        var musicBtn = document.getElementById('music-btn');
+        var isPlaying = false;
+
+        function startExperience() {
+            audio.play().then(() => {
+                isPlaying = true;
+                updateMusicIcon();
+            }).catch(error => {
+                console.log("Müzik çalınamadı:", error);
+            });
+
+            startScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                
+                // Diğer elementleri göster
+                mainContent.classList.add('show');
+                
+                header.style.display = 'block';
+                setTimeout(() => { header.style.opacity = '1'; }, 100);
+                
+                musicBtn.style.display = 'flex';
+                setTimeout(() => { musicBtn.style.opacity = '1'; }, 100);
+                
+            }, 800);
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            } else {
+                audio.play();
+                isPlaying = true;
+            }
+            updateMusicIcon();
+        }
+
+        function updateMusicIcon() {
+            if (isPlaying) {
+                musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        }
+    </script>
+</body>
+</html>
